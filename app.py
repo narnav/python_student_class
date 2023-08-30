@@ -1,38 +1,8 @@
 from enum import Enum
 import pickle
 
+from helper import Actions, Student,Test
 
-class Actions(Enum):
-    ADD_STUDENT =0
-    PRINT_ALL_STUDENTS=1
-    ADD_TEST =2
-    AVG =3
-    EXIT=4
-
-
-class Test:
-    def __init__(self,test_name,grade) -> None:
-        self.test_name=test_name
-        self.grade=grade
-
- 
-class Student:
-    def __init__(self,first_name,last_name) -> None:
-        self.test_lst=[]
-        self.first_name=first_name
-        self.last_name=last_name
-
-    def add_test (self,test_name,grade):
-        self.test_lst.append(Test(test_name,grade))
-
-
-    def get_avg(self):
-        total_grade = sum(test.grade for test in self.test_lst)
-        average_grade = total_grade / len(self.test_lst)
-        return average_grade
-
-    def __str__(self) -> str:
-        return self.first_name + "," +self.last_name + " grade avg:" + str(self.get_avg())
 
 students=[]
 students_db='students.pkl'
@@ -61,6 +31,14 @@ def menu():
         if user_selection == Actions.PRINT_ALL_STUDENTS:
             for stu in students: print(stu)
         if user_selection == Actions.ADD_TEST:  add_test()
+        if user_selection == Actions.DISPLAY_SORTED_TESTS:  get_student_sorted_tests()
+
+def get_student_sorted_tests():
+    for index,stu in  enumerate(students):
+        print(f'{index+1}: {stu.first_name}')
+    selected_student= int(input(f'please selct a index ({1}-{len(students)})'))-1
+    print( students[selected_student].get_sorted_grades())
+
 
 def add_test():
     for index,stu in  enumerate(students):
